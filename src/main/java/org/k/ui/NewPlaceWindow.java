@@ -1,4 +1,4 @@
-package org.k.vaadinClasses;
+package org.k.ui;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.TextField;

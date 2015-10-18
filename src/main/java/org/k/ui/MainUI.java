@@ -1,4 +1,4 @@
-package org.k.vaadinClasses;
+package org.k.ui;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
