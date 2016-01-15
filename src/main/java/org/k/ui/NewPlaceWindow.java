@@ -1,5 +1,6 @@
 package org.k.ui;
 
+import com.vaadin.navigator.View;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -9,15 +10,14 @@ import org.k.dao.PlaceDAOImpl;
 import org.k.domain.Place;
 
 public class NewPlaceWindow extends Window {
-    private MainUI mainUI;
     private final TextField nameField;
 
     public NewPlaceWindow() {
         super("Add new place");
-        //this.mainUI = mainUI;
         setWidth("30%");
         VerticalLayout windowContent = new VerticalLayout();
         windowContent.setMargin(true);
+        windowContent.setSpacing(true);
         setContent(windowContent);
 
         nameField = new TextField("Name");
@@ -42,7 +42,6 @@ public class NewPlaceWindow extends Window {
             place.setName(nameField.getValue());
             placeDAO.addPlace(place);
         }
-        //mainUI.refreshPlaces();
         close();
     }
 }

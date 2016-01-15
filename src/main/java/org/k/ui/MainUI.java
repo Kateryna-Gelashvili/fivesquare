@@ -26,7 +26,11 @@ public class MainUI extends UI {
         new Navigator(this,this);
         getNavigator().addView(LoginView.NAME,LoginView.class);
         getNavigator().addView(MainView.NAME,MainView.class);
-        getNavigator().navigateTo(LoginView.NAME);
+        if (getSession().getAttribute("user") == null) {
+            getNavigator().navigateTo(LoginView.NAME);
+        }else {
+            getNavigator().navigateTo(MainView.NAME);
+        }
     }
 
 

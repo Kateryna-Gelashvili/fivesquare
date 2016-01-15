@@ -34,7 +34,13 @@ public class MainView extends CustomComponent implements View {
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 Window newPlaceWindow = new NewPlaceWindow();
-               getUI().addWindow(newPlaceWindow);
+                newPlaceWindow.addCloseListener(new Window.CloseListener() {
+                    @Override
+                    public void windowClose(Window.CloseEvent e) {
+                        refreshPlaces();
+                    }
+                });
+                getUI().addWindow(newPlaceWindow);
             }
         });
         placeList.setContainerDataSource(new BeanItemContainer<>(Place.class));

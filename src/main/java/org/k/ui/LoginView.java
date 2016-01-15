@@ -8,11 +8,12 @@ import com.vaadin.ui.themes.Reindeer;
 import org.k.dao.UserDAOImpl;
 import org.k.domain.User;
 
-public class LoginView extends CustomComponent implements View,Button.ClickListener {
+public class LoginView extends CustomComponent implements View {
     public static final String NAME = "login";
     private final TextField user;
     private final PasswordField password;
     private final Button loginButton;
+    private final Button registerButton;
     private UserDAOImpl userDAO = UserDAOImpl.getInstance();
 
     public LoginView() {
@@ -27,9 +28,37 @@ public class LoginView extends CustomComponent implements View,Button.ClickListe
         password.setValue("");
         password.setNullRepresentation("");
 
-        loginButton = new Button("Login",this);
+        loginButton = new Button("Login");
+        loginButton.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                String username = user.getValue();
+                String pwd = password.getValue();
 
-        VerticalLayout fields = new VerticalLayout(user,password,loginButton);
+                User userdb = userDAO.getUserByName(username);
+
+                if (userdb.getPassword().equals(pwd)){
+                    getSession().setAttribute("user",username);
+                    getUI().getNavigator().navigateTo(MainView.NAME);
+                }else {
+                    password.setValue("");
+                    password.focus();
+                }
+            }
+        });
+        registerButton = new Button("Register");
+        registerButton.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                Window registrationWindow = new RegistrationWindow();
+                getUI().addWindow(registrationWindow);
+            }
+        });
+
+        HorizontalLayout buttons = new HorizontalLayout(loginButton,registerButton);
+        buttons.setSpacing(true);
+
+        VerticalLayout fields = new VerticalLayout(user,password,buttons);
         fields.setCaption("Please login to access the application.");
         fields.setSpacing(true);
         fields.setMargin(new MarginInfo(true,true,true,false));
@@ -48,19 +77,4 @@ public class LoginView extends CustomComponent implements View,Button.ClickListe
         user.focus();
     }
 
-    @Override
-    public void buttonClick(Button.ClickEvent event) {
-        String username = user.getValue();
-        String pwd = password.getValue();
-
-        User userdb = userDAO.getUserByName(username);
-
-        if (userdb.getPassword().equals(pwd)){
-            getSession().setAttribute("user",username);
-            getUI().getNavigator().navigateTo(MainView.NAME);
-        }else {
-            password.setValue("");
-            password.focus();
-        }
-    }
 }
