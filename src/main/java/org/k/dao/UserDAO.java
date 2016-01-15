@@ -13,7 +13,7 @@ public interface UserDAO {
     public void deleteUser(User user);
     public List<User> getAllUsers();
     public User getUserByID(int id);
-    public List<User> getUsersByName(String name);
+    public User getUserByName(String name);
     public Set<Checking> getCheckings(User user);
     public Set<Comment> getComments(User user);
 }

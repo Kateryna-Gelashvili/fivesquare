@@ -12,9 +12,9 @@ public class NewPlaceWindow extends Window {
     private MainUI mainUI;
     private final TextField nameField;
 
-    public NewPlaceWindow(MainUI mainUI) {
+    public NewPlaceWindow() {
         super("Add new place");
-        this.mainUI = mainUI;
+        //this.mainUI = mainUI;
         setWidth("30%");
         VerticalLayout windowContent = new VerticalLayout();
         windowContent.setMargin(true);
@@ -42,7 +42,7 @@ public class NewPlaceWindow extends Window {
             place.setName(nameField.getValue());
             placeDAO.addPlace(place);
         }
-        mainUI.refreshPlaces();
+        //mainUI.refreshPlaces();
         close();
     }
 }

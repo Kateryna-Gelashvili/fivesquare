@@ -94,7 +94,7 @@ public class UserDAOImpl implements UserDAO {
         User user = null;
         try {
             Transaction transaction = session.beginTransaction();
-            user = (User) session.get(User.class, id);
+            user = (User) session.get(User.class,id);
             transaction.commit();
         }finally {
             if (session != null){
@@ -105,19 +105,20 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public List<User> getUsersByName(String name) {
+    public User getUserByName(String name) {
         Session session = HibFactory.getFactory().openSession();
-        List<User> list = new ArrayList<>();
+        List<User> users = null;
         try {
             Transaction transaction = session.beginTransaction();
-            list = (List<User>) session.createQuery("from User where name like '%" + name + "%'").list();
+            users = (List<User>) session.createQuery("from User where name = :name").setParameter("name",name).list();
             transaction.commit();
         }finally {
             if (session != null){
                 session.close();
             }
         }
-        return list;
+
+        return users.isEmpty() ? null : users.get(0);
     }
 
     @Override

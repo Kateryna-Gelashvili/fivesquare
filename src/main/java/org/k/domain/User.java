@@ -19,8 +19,10 @@ public class User {
 
     @Column(name = "full_name")
     private String fullName;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private Set<Checking> checkings;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private Set<Comment> comments;
 
