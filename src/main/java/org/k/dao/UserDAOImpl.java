@@ -29,19 +29,19 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public int addUser(User user) {
+    public User addUser(User user) {
         Session session = HibFactory.getFactory().openSession();
-        Integer id = null;
+        User userDB = null;
         try {
             Transaction transaction = session.beginTransaction();
-            id = (Integer) session.save(user);
+            userDB = (User) session.merge(user);
             transaction.commit();
         }finally {
             if (session != null){
                 session.close();
             }
         }
-        return id;
+        return userDB;
     }
 
     @Override

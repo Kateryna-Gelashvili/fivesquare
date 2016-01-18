@@ -7,6 +7,7 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.themes.Reindeer;
 import org.k.dao.UserDAOImpl;
 import org.k.domain.User;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class LoginView extends CustomComponent implements View {
     public static final String NAME = "login";
@@ -37,7 +38,7 @@ public class LoginView extends CustomComponent implements View {
 
                 User userdb = userDAO.getUserByName(username);
 
-                if (userdb.getPassword().equals(pwd)){
+                if (BCrypt.checkpw(pwd, userdb.getPassword())){
                     getSession().setAttribute("user",username);
                     getUI().getNavigator().navigateTo(MainView.NAME);
                 }else {

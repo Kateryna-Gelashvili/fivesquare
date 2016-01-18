@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 public interface UserDAO {
-    public int addUser(User user);
+    public User addUser(User user);
     public void updateUser(User user);
     public void deleteUser(User user);
     public List<User> getAllUsers();
