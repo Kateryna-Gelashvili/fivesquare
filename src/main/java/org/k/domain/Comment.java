@@ -8,22 +8,22 @@ import java.util.Date;
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "comment")
+    @Column(name = "comment", nullable = false, length = 2000)
     private String comment;
 
     @ManyToOne
-    @JoinColumn(name = "user")
+    @JoinColumn(name = "user", nullable = false, foreignKey = @ForeignKey(name = "FK_COMMENT_USER"))
     private User user;
 
-    @Column(name = "date")
+    @Column(name = "date", nullable = false)
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date date;
 
     @ManyToOne
-    @JoinColumn(name = "place")
+    @JoinColumn(name = "place", nullable = false, foreignKey = @ForeignKey(name = "FK_COMMENT_PLACE"))
     private Place place;
 
     public Comment() {

@@ -18,6 +18,7 @@
         <property name="show_sql">true</property>
         <property name="format_sql">true</property>
         <property name="use_sql_comments">true</property>
+        <property name="hbm2ddl.auto">update</property>
         <mapping class="org.k.domain.Comment"></mapping>
         <mapping class="org.k.domain.Checking"></mapping>
         <mapping class="org.k.domain.Place"></mapping>

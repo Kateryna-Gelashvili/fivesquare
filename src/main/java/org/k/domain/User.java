@@ -1,23 +1,27 @@
 package org.k.domain;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user", uniqueConstraints = @UniqueConstraint(name = "UK_USERNAME", columnNames = "name"))
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id",nullable = false)
     private Integer id;
 
-    @Column(name = "name", length = 255)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "password", length = 255)
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "full_name")
+    @Column(name = "full_name", nullable = false)
     private String fullName;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
@@ -25,6 +29,27 @@ public class User {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private Set<Comment> comments;
+
+//    @Column(name = "created_date", nullable = false)
+//    @Temporal(TemporalType.TIMESTAMP)
+//    @CreationTimestamp
+//    private Date createdDate;
+//
+//    @Column(name = "updated_date", nullable = true)
+//    @Temporal(TemporalType.TIMESTAMP)
+//    @UpdateTimestamp
+//    private Date updatedDate;
+
+//    @PrePersist
+//    protected void onCreate(){
+//        createdDate = new Date();
+//        updatedDate = new Date();
+//    }
+//
+//    @PreUpdate
+//    protected void onUpdate(){
+//        updatedDate = new Date();
+//    }
 
     public User() {
     }

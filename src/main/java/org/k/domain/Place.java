@@ -8,10 +8,10 @@ import java.util.Set;
 public class Place {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "name", length = 1024)
+    @Column(name = "name", length = 1024, nullable = false)
     private String name;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "place")
@@ -19,7 +19,8 @@ public class Place {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "place_tag", joinColumns = @JoinColumn (name = "place",referencedColumnName = "id"),
-    inverseJoinColumns = @JoinColumn(name = "tag",referencedColumnName = "id"))
+    inverseJoinColumns = @JoinColumn(name = "tag",referencedColumnName = "id"),
+    foreignKey = @ForeignKey(name = "FK_PLACE_TAG_PLACE"), inverseForeignKey = @ForeignKey(name = "FK_PLACE_TAG_TAG"))
     private Set<Tag> tags;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "place")

@@ -4,21 +4,24 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Represents the tag object
+ */
 @Entity
 @Table(name = "tag")
 public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id",nullable = false)
     private Integer id;
 
-    @Column(name = "name")
+    @Column(name = "name",nullable = false)
     private String name;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "place_tag", joinColumns = @JoinColumn (name = "tag",referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "place",referencedColumnName = "id"))
-
+            inverseJoinColumns = @JoinColumn(name = "place",referencedColumnName = "id"),
+    foreignKey = @ForeignKey(name = "FK_PLACE_TAG_TAG"), inverseForeignKey = @ForeignKey(name = "FK_PLACE_TAG_PLACE"))
     private Set<Place> places = new HashSet<Place>();
 
     public Tag() {
