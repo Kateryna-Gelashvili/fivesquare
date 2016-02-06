@@ -8,6 +8,8 @@ import com.vaadin.ui.themes.Reindeer;
 import org.k.dao.UserDAOImpl;
 import org.k.domain.User;
 import org.mindrot.jbcrypt.BCrypt;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LoginView extends CustomComponent implements View {
     public static final String NAME = "login";
@@ -16,6 +18,8 @@ public class LoginView extends CustomComponent implements View {
     private final Button loginButton;
     private final Button registerButton;
     private UserDAOImpl userDAO = UserDAOImpl.getInstance();
+    private Label message;
+    private static final Logger logger = LoggerFactory.getLogger(LoginView.class);
 
     public LoginView() {
         setSizeFull();
@@ -29,6 +33,8 @@ public class LoginView extends CustomComponent implements View {
         password.setValue("");
         password.setNullRepresentation("");
 
+        message = new Label();
+
         loginButton = new Button("Login");
         loginButton.addClickListener(new Button.ClickListener() {
             @Override
@@ -40,8 +46,11 @@ public class LoginView extends CustomComponent implements View {
 
                 if (BCrypt.checkpw(pwd, userdb.getPassword())){
                     getSession().setAttribute("user",username);
+                    logger.debug("User {} login", user.getValue());
                     getUI().getNavigator().navigateTo(MainView.NAME);
                 }else {
+                    message.setValue("Username or password is wrong!");
+                    logger.debug("User {} failed login, wrong username or password", user.getValue());
                     password.setValue("");
                     password.focus();
                 }
@@ -59,7 +68,7 @@ public class LoginView extends CustomComponent implements View {
         HorizontalLayout buttons = new HorizontalLayout(loginButton,registerButton);
         buttons.setSpacing(true);
 
-        VerticalLayout fields = new VerticalLayout(user,password,buttons);
+        VerticalLayout fields = new VerticalLayout(user,password,buttons,message);
         fields.setCaption("Please login to access the application.");
         fields.setSpacing(true);
         fields.setMargin(new MarginInfo(true,true,true,false));

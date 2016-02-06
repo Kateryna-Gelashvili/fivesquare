@@ -5,6 +5,8 @@ import org.k.dao.UserDAO;
 import org.k.dao.UserDAOImpl;
 import org.k.domain.User;
 import org.mindrot.jbcrypt.BCrypt;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RegistrationWindow extends Window {
     private TextField name;
@@ -13,6 +15,7 @@ public class RegistrationWindow extends Window {
     private PasswordField checkPassword;
     private Button registerButton;
     private Label message;
+    private static final Logger logger = LoggerFactory.getLogger(RegistrationWindow.class);
 
     public RegistrationWindow() {
         super("Registration information");
@@ -20,6 +23,7 @@ public class RegistrationWindow extends Window {
         center();
         name = new TextField("Name");
         name.setWidth("100%");
+        name.focus();
         fullName = new TextField("Full name");
         fullName.setWidth("100%");
         password = new PasswordField("Password");
@@ -33,6 +37,7 @@ public class RegistrationWindow extends Window {
         registerButton.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
+                logger.debug("Registration requested: {}",name.getValue());
                 saveUser();
             }
         });
@@ -49,6 +54,7 @@ public class RegistrationWindow extends Window {
         User userDB = userDAO.getUserByName(name.getValue());
         if (userDB != null){
             message.setValue("Sorry this name is not free");
+            logger.debug("Registration declined, name {} is not free", name.getValue());
         }else {
             User newUser = new User();
             newUser.setName(name.getValue());
@@ -57,7 +63,9 @@ public class RegistrationWindow extends Window {
             try {
                 User addedUser = userDAO.addUser(newUser);
                 message.setValue("User was registered successfully");
+                logger.debug("Successfully saved user: {}", name.getValue());
             }catch (Exception e){
+                logger.error("Registration failed",e);
                 message.setValue("Something went wrong. Try again");
             }
         }
