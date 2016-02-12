@@ -11,7 +11,7 @@
         <file>${user.home}\fivesquare_logs\fivesquare.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover -->
-            <fileNamePattern>${user.home}\fivesquare_logs\fivesquare_%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${user.home}\fivesquare_logs\fivesquare_%d{yyyy-MM-dd}.log.gz</fileNamePattern>
 
             <!-- keep 30 days' worth of history -->
             <maxHistory>30</maxHistory>
